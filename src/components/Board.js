@@ -12,10 +12,11 @@ function Board() {
 
   const ShapesDrawing = useCallback(()=>
   {
+    console.log('drawing');
     const canvas = canvasRef.current;
     const roughCanvas = rough.canvas(canvas);
     const ctx = canvas.getContext('2d');
-    ctx.clearRect(0,0,canvas.Width,canvas.Height);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
     for(let i = 0;i<shapes.length;i++)
       {
         roughCanvas.draw(shapes[i]);
@@ -23,7 +24,9 @@ function Board() {
   },[shapes])
 
   useEffect(() => {
+    console.log('useEffect');
     const canvas = canvasRef.current;
+    console.log(Symbol.for(canvasRef.current));
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     ShapesDrawing();
@@ -45,6 +48,8 @@ function Board() {
       const canvas = canvasRef.current;
       const roughCanvas = rough.canvas(canvas);
       const generator = roughCanvas.generator;
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0,0,canvas.width,canvas.height);
       let rect1 = generator.rectangle(x,y,event.clientX-x,event.clientY-y);
       ShapesDrawing();
       roughCanvas.draw(rect1);
@@ -57,6 +62,8 @@ function Board() {
     const roughCanvas = rough.canvas(canvas);
     const generator = roughCanvas.generator;
     setIsClick(false);
+    //const ctx = canvas.getContext('2d');
+    //ctx.clearRect(0,0,canvas.width,canvas.height);
     let rect1 = generator.rectangle(x,y,event.clientX-x,event.clientY-y);
     roughCanvas.draw(rect1);
     setShapes([...shapes,rect1]);
