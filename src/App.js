@@ -1,10 +1,10 @@
-import Board from "./components/Board";
+import React from "react";
+import Shapes from "./components/Shapes";
 
 function App() {
-
   return (
     <div className="App">
-      <Board/>
+      <Shapes/>
     </div>
   );
 }
