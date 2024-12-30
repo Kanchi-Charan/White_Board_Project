@@ -1,10 +1,10 @@
 import React from "react";
-import Shapes from "./components/Shapes";
+import ContextProvider from "./Store/ContextProvide";
 
 function App() {
   return (
     <div className="App">
-      <Shapes/>
+      <ContextProvider/>
     </div>
   );
 }

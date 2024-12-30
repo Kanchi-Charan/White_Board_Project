@@ -1,31 +1,33 @@
-import {useCallback, useEffect,useRef, useState} from 'react';
+import {useCallback, useContext, useEffect,useRef, useState} from 'react';
 import rough from 'roughjs';
+import boardContext from '../../Store/BoardContext';
 
-function Board({shape}) {
-
+function Board() {
+  console.log('board');
   const canvasRef = useRef();
-  const [shapes,setShapes] = useState([]);
+  const {shape,shapes,dispatchShapes,len} = useContext(boardContext);
   const [isClick,setIsClick] = useState(false);
   const [x,setX] = useState(null);
   const [y,setY] = useState(null);
+  console.log(shapes);
 
   const ShapesDrawing = useCallback(()=>
   {
-    //console.log('drawing');
+    console.log(len);
+    console.log(shapes.length);
     const canvas = canvasRef.current;
     const roughCanvas = rough.canvas(canvas);
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    for(let i = 0;i<shapes.length;i++)
+    for(let i = 0;i<len;i++)
     {
       roughCanvas.draw(shapes[i]);
     }
-  },[shapes])
+  },[shapes,len])
 
   useEffect(() => {
     console.log('useEffect');
     const canvas = canvasRef.current;
-    console.log(Symbol.for(canvasRef.current));
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     ShapesDrawing();
@@ -33,7 +35,11 @@ function Board({shape}) {
 
   function handleTap(event)
   {
-      console.log("rightclick");
+    if(shape==='undo'||shape==='redo')
+    {
+      return;
+    }
+      //console.log("rightclick");
       setX(event.clientX);
       setY(event.clientY);
       setIsClick(true);
@@ -43,7 +49,7 @@ function Board({shape}) {
   function handleMouseMove(event){
     if(isClick)
     {
-      console.log('move');
+      //console.log('move');
       const canvas = canvasRef.current;
       const roughCanvas = rough.canvas(canvas);
       const generator = roughCanvas.generator;
@@ -71,7 +77,7 @@ function Board({shape}) {
 
   function handleMouseUp(event){
     if(isClick){
-    console.log('up');
+    //console.log('up');
     const canvas = canvasRef.current;
     const roughCanvas = rough.canvas(canvas);
     const generator = roughCanvas.generator;
@@ -94,9 +100,11 @@ function Board({shape}) {
         }
     //let rect1 = generator.rectangle(x,y,event.clientX-x,event.clientY-y,{stroke:'white'});
     roughCanvas.draw(shape1);
-    setShapes([...shapes,shape1]);
+    dispatchShapes({type:'shape/added',payload:shape1});
       }
   }
+
+  
   
 
   return (
@@ -104,7 +112,7 @@ function Board({shape}) {
               onMouseDown={handleTap}
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
-              className='cursor-pen z-0'
+              className='cursor-pen -z-1'
               ></canvas>
   );
 }
