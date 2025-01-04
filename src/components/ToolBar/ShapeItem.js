@@ -4,13 +4,15 @@ import boardContext from "../../Store/BoardContext";
 function ShapeItem({Icon,data})
 {
     const {shape,dispatchShape,dispatchShapes} = useContext(boardContext);
-    console.log(shape);
     function handleClick(data)
     {
-        dispatchShape({type:'shape/changed',payload:data});
+        
         if(data==='undo'||data==='redo')
         {
             dispatchShapes({type:data});
+        }
+        else{
+            dispatchShape({type:'shape/changed',payload:data});
         }
         
     }

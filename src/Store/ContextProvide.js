@@ -6,7 +6,7 @@ import Board_Reducer from "../components/Board/Board_Reducer";
 
 
 function ContextProvider(){
-    const [shape,dispatchShape] = useReducer(reducer,'rect');
+    const [shape,dispatchShape] = useReducer(reducer,'pencil');
     const [shapes,dispatchShapes] = useReducer(Board_Reducer,{Shapes:[],len:0});
     return (
         <boardContext.Provider value = {{shape : shape ,dispatchShape : dispatchShape,shapes: shapes.Shapes,len : shapes.len,dispatchShapes:dispatchShapes}}>
@@ -23,7 +23,7 @@ function reducer(shape,action)
             return action.payload;
         }
         default:{
-            return 'rect';
+            return 'pencil';
         }
     }
     
