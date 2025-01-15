@@ -5,7 +5,7 @@ import boardContext from '../../Store/BoardContext';
 function Board() {
   //console.log('board');
   const canvasRef = useRef();
-  const {shape,shapes,dispatchShapes,len} = useContext(boardContext);
+  const {shape,shapes,dispatchShapes,len,strokeColor} = useContext(boardContext);
   const [isClick,setIsClick] = useState(false);
   const [x,setX] = useState(null);
   const [y,setY] = useState(null);
@@ -69,7 +69,7 @@ function Board() {
       let shape1;
       if(shape==='rect')
       {
-        shape1 = generator.rectangle(x,y,event.clientX-x,event.clientY-y,{stroke:'black'});
+        shape1 = generator.rectangle(x,y,event.clientX-x,event.clientY-y,{stroke:strokeColor});
       }
       else if(shape==='circ')
       {
@@ -78,11 +78,11 @@ function Board() {
       }
       else if(shape==='line')
       {
-        shape1 = generator.line(x,y,event.clientX,event.clientY,{stroke:'black'});
+        shape1 = generator.line(x,y,event.clientX,event.clientY,{stroke:strokeColor});
       }
       else if(shape==='pencil')
         {
-          shape1 = generator.line(x,y,event.clientX,event.clientY,{stroke:'black'});
+          shape1 = generator.line(x,y,event.clientX,event.clientY,{stroke:strokeColor});
           setX(event.clientX);
           setY(event.clientY);
           dispatchShapes({type:'shape/added',payload:shape1,drawing:isClick,shape:shape});
@@ -111,23 +111,23 @@ function Board() {
     let shape1;
     if(shape==='rect')
       {
-        shape1 = generator.rectangle(x,y,event.clientX-x,event.clientY-y,{stroke:'black'});
+        shape1 = generator.rectangle(x,y,event.clientX-x,event.clientY-y,{stroke:strokeColor});
         dispatchShapes({type:'shape/added',payload:shape1,shape:shape});
       }
     else if(shape==='circ')
       {
         let dia = 2*Math.sqrt(Math.pow(event.clientX - x, 2) + Math.pow(event.clientY - y, 2));
-        shape1 = generator.circle(x,y,dia,{stroke:'black'});
+        shape1 = generator.circle(x,y,dia,{stroke:strokeColor});
         dispatchShapes({type:'shape/added',payload:shape1,shape:shape});
       }
       else if(shape==='line')
         {
-          shape1 = generator.line(x,y,event.clientX,event.clientY,{stroke:'black'});
+          shape1 = generator.line(x,y,event.clientX,event.clientY,{stroke:strokeColor});
           dispatchShapes({type:'shape/added',payload:shape1,shape:shape});
         }
         else if(shape==='pencil')
         {
-          shape1 = generator.line(x,y,event.clientX,event.clientY,{stroke:'black'});
+          shape1 = generator.line(x,y,event.clientX,event.clientY,{stroke:strokeColor});
         }
         else if(shape==='eraser')
           {
